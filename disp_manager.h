@@ -15,6 +15,8 @@ typedef struct DisOpr
     char* GetBuffer(int* pXRes, int* pYRes, int* pBpp);  // 获得一个buffer，在上面绘制图片
     int FlushRegion(PRegion ptRegion, char* buffer);  // 把绘制好的区域刷出来
     struct DisOpr* ptNext;  // 刷到FrameBuffer或者web端都行，用一个链表式的指针链接起来好管理
+    int DeviceInit();
+	int DeviceExit();
 }DisOpr, * PDisOpr;
 
 #endif
