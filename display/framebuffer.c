@@ -8,7 +8,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
-#include "disp_manager.h"
+#include <disp_manager.h>
 
 static int fd_fb;
 static struct fb_var_screeninfo var;	/* Current var */
@@ -44,7 +44,7 @@ static int FbDeviceInit()
 }
 static int FbDeviceExit()
 {
-	munmap(fd_fb, screen_size);
+	munmap(fb_base, screen_size);
 	close(fd_fb);
 	return 0;
 }
@@ -58,7 +58,7 @@ static int FbGetBuffer(PDispBuff ptDispBuff)  // 获得一个buffer，在上面�
 	ptDispBuff->iXres = var.xres;
 	ptDispBuff->iYres = var.yres;
 	ptDispBuff->iBpp = var.bits_per_pixel;
-	ptDispBuff->buff = fb_base;
+	ptDispBuff->buff = (char* )fb_base;
 	return 0;
 }
 static int FbFlushRegion(PRegion ptRegion, PDispBuff ptDispBuff)  // 把绘制好的区域刷出来
@@ -66,7 +66,7 @@ static int FbFlushRegion(PRegion ptRegion, PDispBuff ptDispBuff)  // 把绘制�
 	return 0;
 }
 
-static DisOpr g_tFramebufferOpr = 
+static DispOpr g_tFramebufferOpr = 
 {
 	.name = "fb",
 	.GetBuffer = FbGetBuffer,

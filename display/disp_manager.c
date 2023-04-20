@@ -8,7 +8,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
-#include "disp_manager.h"
+#include <disp_manager.h>
 
 /*
 * 管理底层的LCD、WEB或其他显示方式
@@ -16,7 +16,7 @@
 
 static PDispOpr g_DispDevs = NULL;  // 显示方式头结点
 static PDispOpr g_DispDefault = NULL;  // 默认显示
-static PDispBuff g_DispBuff;
+static DispBuff g_DispBuff;
 static int line_width;  // 每行所有像素的大小
 static int pixel_width;  // 每个像素的大小
 // 添加显示方式结构体，注册进链表中
@@ -34,7 +34,7 @@ void DisplayInit()
 // 来选择链表中的显示方式
 int SelectDefaultDisplay(char* name)
 {
-	PDisOpr tmp = g_DispDevs;
+	PDispOpr tmp = g_DispDevs;
 	while(tmp)
 	{
 		if(strcmp(tmp->name, name) == 0)
@@ -66,6 +66,12 @@ int InitDefaultDisplay()
 	pixel_width = g_DispBuff.iBpp / 8;
 	return 0;
 }
+// 返回结构体
+PDispBuff GetDisplayBuffer()
+{
+	return &g_DispBuff;
+}
+
 
 /*
 * 通用函数
@@ -74,7 +80,7 @@ int InitDefaultDisplay()
 // 绘制像素
 int PutPixel(int x, int y, unsigned int dwColor)
 {
-	unsigned char *pen_8 = g_DispBuff.buff + y * line_width + x * pixel_width;
+	unsigned char *pen_8 = (unsigned char* )(g_DispBuff.buff + y * line_width + x * pixel_width);
 	unsigned short *pen_16;	
 	unsigned int *pen_32;	
 
@@ -108,13 +114,15 @@ int PutPixel(int x, int y, unsigned int dwColor)
 		default:
 		{
 			printf("can't surport %dbpp\n", g_DispBuff.iBpp);
+			return -1;
 			break;
 		}
 	}
+	return 0;
 }
 
 // 把绘制好的像素刷到硬件上去
-static int FlushDisplayRegion(PRegion ptRegion, PDispBuff ptDispBuff)
+int FlushDisplayRegion(PRegion ptRegion, PDispBuff ptDispBuff)
 {
 	return g_DispDefault->FlushRegion(ptRegion, ptDispBuff);
 }
