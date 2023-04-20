@@ -53,14 +53,15 @@ static int FbDeviceExit()
 * 可以返回LCD的Framebuffer，上层APP可直接操作LCD，这时FbFlushRegion可写为空
 * 也可以malloc返回一块无关的buffer，要使用FbFlushRegion
 */
-static char* FbGetBuffer(int* pXRes, int* pYRes, int* pBpp)  // 获得一个buffer，在上面绘制图片
+static int FbGetBuffer(PDispBuff ptDispBuff)  // 获得一个buffer，在上面绘制图片
 {
-	*pXRes = var.xres;
-	*pYRes = var.yres;
-	*pBpp = var.bits_per_pixel;
-	return fb_base;
+	ptDispBuff->iXres = var.xres;
+	ptDispBuff->iYres = var.yres;
+	ptDispBuff->iBpp = var.bits_per_pixel;
+	ptDispBuff->buff = fb_base;
+	return 0;
 }
-static int FbFlushRegion(PRegion ptRegion, char* buffer);  // 把绘制好的区域刷出来
+static int FbFlushRegion(PRegion ptRegion, PDispBuff ptDispBuff)  // 把绘制好的区域刷出来
 {
 	return 0;
 }
@@ -73,4 +74,9 @@ static DisOpr g_tFramebufferOpr =
 	.DeviceInit = FbDeviceInit,
 	.DeviceExit = FbDeviceExit
 };
+// 将结构体注册进去
+void FramebufferInit()
+{
+	RegisterDisplay(&g_tFramebufferOpr);
+}
 
