@@ -16,7 +16,7 @@ export STRIP OBJCOPY OBJDUMP
 CFLAGS := -Wall -O2 -g
 CFLAGS += -I $(shell pwd)/include
 
-LDFLAGS := 
+LDFLAGS := -lts
 
 export CFLAGS LDFLAGS
 
@@ -27,7 +27,7 @@ TARGET := test
 
 
 obj-y += display/
-obj-y += unittest/
+obj-y += input/
 
 
 all : start_recursive_build $(TARGET)

@@ -1,11 +1,17 @@
 #include <input_manager.h>
+#include <stdio.h>
+#include <tslib.h>
+
+#ifndef NULL
+#define NULL (void* )0
+#endif
 
 struct tsdev* g_ts;
 
 static int TouchScreenGetInputEvent(PInputEvent ptInputEvent)
 {
 	struct ts_sample samp;
-	in ret;
+	int ret;
 	
 	ret = ts_read(g_ts, &samp, 1);
 	if(ret != 1) return -1;
@@ -42,3 +48,31 @@ static InputDevice g_tTouchScreenDev =
 	.DeviceInit = TouchScreenDeviceInit,
 	.DeviceExit = TouchScreenDeviceExit
 };
+
+#if 1
+int main(int argc, char * * argv)
+{
+	InputEvent event;
+	int ret;
+
+	g_tTouchScreenDev.DeviceInit();
+	while(1)
+	{
+		ret = g_tTouchScreenDev.GetInputEvent(&event);
+		if(ret)
+		{
+			printf("GetInputEvent Err!\n");
+			return -1;
+		}
+		else
+		{
+			printf("Type       : %d\n", event.iType);
+			printf("iX         : %d\n", event.iX);
+			printf("iY         : %d\n", event.iY);
+			printf("iPressure  : %d\n", event.iPressure);
+		}
+	}
+	
+	return 0;
+}
+#endif

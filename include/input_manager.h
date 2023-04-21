@@ -1,6 +1,8 @@
 #ifndef __INPUT_MANAGER_H__
 #define __INPUT_MANAGER_H__
 
+#include <sys/time.h>
+
 #define INPUT_TYPE_TOUCH 1  // 触摸屏事件
 #define INPUT_TYPE_NET 2  // 网络事件
 
