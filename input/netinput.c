@@ -17,20 +17,20 @@ static int g_iSocketServer;
 static int NetInputGetInputEvent(PInputEvent ptInputEvent)
 {
 	struct sockaddr_in tSocketClientAddr;  // 客户端的地址信息
-	int iAddrLen;
-	unsigned char ucRecvBuf[1000];
+	unsigned int iAddrLen;
+	char aRecvBuf[1000];
 	int iRecvLen;  // 接收到的数据
 	
 	// ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen);
 	iAddrLen = sizeof(struct sockaddr);
-	iRecvLen = recvfrom(g_iSocketServer, ucRecvBuf, 999, 0, (struct sockaddr *)&tSocketClientAddr, &iAddrLen);
+	iRecvLen = recvfrom(g_iSocketServer, aRecvBuf, 999, 0, (struct sockaddr *)&tSocketClientAddr, &iAddrLen);
 	if(iRecvLen > 0)
 	{
-		ucRecvBuf[iRecvLen] = '\0';
+		aRecvBuf[iRecvLen] = '\0';
 		ptInputEvent->iType = INPUT_TYPE_NET;
 		// int gettimeofday(struct timeval *tv, struct timezone *tz);
 		gettimeofday(&ptInputEvent->tTime, NULL);
-		strncpy(ptInputEvent->str, ucRecvBuf, 1000);
+		strncpy(ptInputEvent->str, aRecvBuf, 1000);
 		ptInputEvent->str[999] = '\0';
 		return 0;
 	}
@@ -66,7 +66,7 @@ static int NetInputDeviceInit()
 }
 static int NetInputDeviceExit()
 {
-	close(iSocketServer);
+	close(g_iSocketServer);
 	return 0;
 }
 
@@ -78,7 +78,7 @@ static InputDevice g_tNetInputDev =
 	.DeviceExit = NetInputDeviceExit
 };
 
-#if 0
+#if 1
 int main(int argc, char * * argv)
 {
 	InputEvent event;
@@ -96,9 +96,7 @@ int main(int argc, char * * argv)
 		else
 		{
 			printf("Type       : %d\n", event.iType);
-			printf("iX         : %d\n", event.iX);
-			printf("iY         : %d\n", event.iY);
-			printf("iPressure  : %d\n", event.iPressure);
+			printf("Str        : %s\n", event.str);
 		}
 	}
 	
