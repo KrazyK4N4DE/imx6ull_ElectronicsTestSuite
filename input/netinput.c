@@ -72,13 +72,19 @@ static int NetInputDeviceExit()
 
 static InputDevice g_tNetInputDev = 
 {
-	.name = "NetInput",
+	.name = "NetInput",RegisterInputDevice
 	.GetInputEvent = NetInputGetInputEvent,
 	.DeviceInit = NetInputDeviceInit,
 	.DeviceExit = NetInputDeviceExit
 };
 
-#if 1
+void NetInputDeviceRegister()
+{
+	RegisterInputDevice(&g_tNetInputDev);	
+}
+
+/*单元测试代码*/
+#if 0
 int main(int argc, char * * argv)
 {
 	InputEvent event;
