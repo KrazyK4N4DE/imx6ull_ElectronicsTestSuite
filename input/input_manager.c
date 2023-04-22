@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <semaphore.h>
 #include <string.h>
+#include <input_manager.h>
 
 static PInputDevice g_InputDevs = NULL;  // 设备头结点
 static pthread_mutex_t g_tMutex  = PTHREAD_MUTEX_INITIALIZER;
@@ -65,7 +66,7 @@ void InputRegister()
 }
 
 /*对于每个设备，初始化、并创建线程*/
-static void *input_recv_my_thread_func (void *data)
+static void* input_recv_my_thread_func (void* data)
 {
 	PInputDevice ptDev = (PInputDevice)data;
 	InputEvent tEvent;
@@ -85,7 +86,6 @@ static void *input_recv_my_thread_func (void *data)
 			pthread_mutex_unlock(&g_tMutex);
 		}
 	}
-
 	return NULL;
 }
 void InputDeviceInit()
@@ -101,6 +101,7 @@ void InputDeviceInit()
 		{	
 			ret = pthread_create(&tid, NULL, input_recv_my_thread_func, tmp);
 		}
+		tmp = tmp->ptNext;
 	}
 }
 
@@ -113,6 +114,7 @@ int GetInputEvent(PInputEvent ptInputEvent)
 	pthread_mutex_lock(&g_tMutex);
 	if(GetInputEventFromBuffer(&tEvent))
 	{
+		*ptInputEvent = tEvent;
 		pthread_mutex_unlock(&g_tMutex);
 		return 0;
 	}
@@ -120,7 +122,11 @@ int GetInputEvent(PInputEvent ptInputEvent)
 	{
 		// 休眠等待
 		pthread_cond_wait(&g_tConVar, &g_tMutex);
-		if(GetInputEventFromBuffer(&tEvent)) ret = 0;
+		if(GetInputEventFromBuffer(&tEvent))
+		{
+			*ptInputEvent = tEvent;
+			ret = 0;
+		}
 		else ret = -1;
 		pthread_mutex_unlock(&g_tMutex);
 	}

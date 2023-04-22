@@ -72,7 +72,7 @@ static int NetInputDeviceExit()
 
 static InputDevice g_tNetInputDev = 
 {
-	.name = "NetInput",RegisterInputDevice
+	.name = "NetInput",
 	.GetInputEvent = NetInputGetInputEvent,
 	.DeviceInit = NetInputDeviceInit,
 	.DeviceExit = NetInputDeviceExit
