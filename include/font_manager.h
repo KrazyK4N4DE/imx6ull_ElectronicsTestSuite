@@ -29,4 +29,9 @@ typedef struct FontOpr
 	struct FontOpr* ptNext;  // 为支持多个字库文件，使用链表连接
 }FontOpr, * PFontOpr;
 
+void RegisterFont(PFontOpr ptFontOpr);
+void FontsRegister();
+int SelectAndInitFont(char* aFontOprName, char* aFineName);
+int SetFontSize(int iFontSize);
+
 #endif

@@ -81,4 +81,8 @@ static FontOpr g_tFreetypeOpr =
 	.GetFontBitMap = FreetypeGetFontBitMap
 };
 
+void FreetypeRegister()
+{
+	RegisterFont(&g_tFreetypeOpr)
+}
 
