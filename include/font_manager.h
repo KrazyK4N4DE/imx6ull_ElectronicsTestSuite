@@ -24,7 +24,7 @@ typedef struct FontOpr
 {
 	char* name;
 	int (*FontInit)(char* aFineName);  // aFineName为字体文件
-	int (*SetFontSize)(int iFontSize);
+	int (*SetFontSize)(int iFontSize);  // 设置字体大小
 	int (*GetFontBitMap)(unsigned int dwCode, PFontBitMap ptFontBitMap);  // 根据需要的字符的ascii值，获得数据保存到ptFontBitMap中
 	struct FontOpr* ptNext;  // 为支持多个字库文件，使用链表连接
 }FontOpr, * PFontOpr;
