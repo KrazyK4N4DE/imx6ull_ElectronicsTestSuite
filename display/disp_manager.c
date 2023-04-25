@@ -121,6 +121,27 @@ int PutPixel(int x, int y, unsigned int dwColor)
 	return 0;
 }
 
+/*绘制文字位图*/
+void DrawFontBitMap(PFontBitMap ptFontBitMap, unsigned int dwColor)
+{
+	int i, j, p, q;
+	int x = ptFontBitMap->tRegion.leftUpX;
+	int y = ptFontBitMap->tRegion.leftUpY;
+    int x_max = x + ptFontBitMap->tRegion.width;
+    int y_max = y + ptFontBitMap->tRegion.height;
+	unsigned char* buffer = ptFontBitMap->pucBuffer;
+	int width = ptFontBitMap->tRegion.width;
+
+    for ( j = y, q = 0; j < y_max; j++, q++ )
+    {
+        for ( i = x, p = 0; i < x_max; i++, p++ )
+        {
+            if (i < 0 || j < 0 || i >= g_DispBuff.iXres || j >= g_DispBuff.iYres) continue;
+            if(buffer[q * width + p]) PutPixel(i, j, dwColor);
+        }
+    }
+}
+
 // 把绘制好的像素刷到硬件上去
 int FlushDisplayRegion(PRegion ptRegion, PDispBuff ptDispBuff)
 {

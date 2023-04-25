@@ -10,7 +10,6 @@
 #include <wchar.h>
 #include <sys/ioctl.h>
 #include <font_manager.h>
-
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
@@ -28,7 +27,7 @@ static int FreetypeFontInit(char* aFineName)
 		printf("FT_Init_FreeType error\n");
 		return -1;
 	}
-    error = (library, aFineName, 0, &g_face);  /* create face object */
+    error = FT_New_Face(library, aFineName, 0, &g_face);  /* create face object */
 	if(error)
 	{
 		printf("FT_New_Face error\n");
@@ -46,7 +45,6 @@ static int FreetypeGetFontBitMap(unsigned int dwCode, PFontBitMap ptFontBitMap)
 {
 	int error;
 	FT_Vector pen;  // pen就是freetype中的origin点
-    FT_Glyph  glyph;
     FT_GlyphSlot slot = g_face->glyph;
 
 	// 给基准点坐标赋值
@@ -63,12 +61,12 @@ static int FreetypeGetFontBitMap(unsigned int dwCode, PFontBitMap ptFontBitMap)
     }
 
 	ptFontBitMap->pucBuffer = slot->bitmap.buffer;  // 获得点阵
-	ptFontBitMap->iLeftUpX = slot->bitmap_left;
-	ptFontBitMap->iLeftUpY = 2 * ptFontBitMap->iCurOriginY -  slot->bitmap_top;  // 笛卡尔坐标到LCD坐标的转换
-	ptFontBitMap->iWidth = slot->bitmap.width;
-	ptFontBitMap->iRows = slot->bitmap.rows;
-	ptFontBitMap->iCNextOriginX = ptFontBitMap->iCurOriginX + slot->advance.x / 64;
-	ptFontBitMap->iCNexyOriginY = ptFontBitMap->iCurOriginY + slot->advance.y / 64;
+	ptFontBitMap->tRegion.leftUpX = slot->bitmap_left;
+	ptFontBitMap->tRegion.leftUpY = 2 * ptFontBitMap->iCurOriginY -  slot->bitmap_top;  // 笛卡尔坐标到LCD坐标的转换
+	ptFontBitMap->tRegion.width = slot->bitmap.width;
+	ptFontBitMap->tRegion.height = slot->bitmap.rows;
+	ptFontBitMap->iNextOriginX = ptFontBitMap->iCurOriginX + slot->advance.x / 64;
+	ptFontBitMap->iNextOriginY = ptFontBitMap->iCurOriginY + slot->advance.y / 64;
 
 	return 0;
 }
@@ -83,6 +81,6 @@ static FontOpr g_tFreetypeOpr =
 
 void FreetypeRegister()
 {
-	RegisterFont(&g_tFreetypeOpr)
+	RegisterFont(&g_tFreetypeOpr);
 }
 

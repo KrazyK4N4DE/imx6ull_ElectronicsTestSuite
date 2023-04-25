@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include <tslib.h>
 
-#ifndef NULL
-#define NULL (void* )0
-#endif
-
 struct tsdev* g_ts;
 
 static int TouchScreenGetInputEvent(PInputEvent ptInputEvent)

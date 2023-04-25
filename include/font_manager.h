@@ -1,23 +1,18 @@
 #ifndef __FONT_MANAGER_H__
 #define __FONT_MANAGER_H__
 
-#ifndef NULL
-#define NULL (void* )0;
-#endif
+#include <common.h>
 
 /*抽象出数据结构来描述文字，支持固定点阵的字库和freetype字库*/
 typedef struct FontBitMap
 {
-	int iLeftUpX;				// 描述位置的左上角X坐标
-	int iLeftUpY;				// 描述位置的左上角Y坐标
-	int iWidth;					// 有多宽
-	int iRows;					// 有多少行(多高)
+	Region tRegion;
 	unsigned char* pucBuffer;	// 位图
 	// 对于freetype，需要选定一个基点，由此可以知道下一个字符基点坐标
 	int iCurOriginX;
 	int iCurOriginY;
-	int iCNextOriginX;
-	int iCNexyOriginY;
+	int iNextOriginX;
+	int iNextOriginY;
 }FontBitMap, * PFontBitMap;
 /*抽象出数据结构来描述字体文件的操作方法，获得字符对应的FontBitMap*/
 typedef struct FontOpr
@@ -33,5 +28,6 @@ void RegisterFont(PFontOpr ptFontOpr);
 void FontsRegister();
 int SelectAndInitFont(char* aFontOprName, char* aFineName);
 int SetFontSize(int iFontSize);
+int GetFontBitMap(unsigned int dwCode, PFontBitMap ptFontBitMap);
 
 #endif
