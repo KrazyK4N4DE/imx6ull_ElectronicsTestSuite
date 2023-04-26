@@ -1,4 +1,4 @@
-#idndef __UI_H__
+#ifndef __UI_H__
 #define __UI_H__
 
 #include <common.h>
@@ -9,6 +9,7 @@
 #define BUTTON_PRESSED_COLOR 0x00ff00  // 按压变色
 #define BUTTON_TEXT_COLOR    0x000000  // 文字颜色
 
+struct Button;
 
 typedef int (*ONDRAW_FUNC)(struct Button* ptButton, PDispBuff ptDispBuff);
 typedef int (*ONPRESSED_FUNC)(struct Button* ptButton, PDispBuff ptDispBuff, PInputEvent ptInputEvent);
@@ -20,5 +21,7 @@ typedef struct Button
 	ONDRAW_FUNC OnDraw;  // 绘制按钮，struct Button* ptButton表示绘制按钮本身
 	ONPRESSED_FUNC OnPressed;  // 使用按钮的方法
 }Button, * PButton;
+
+void ButtonInit(PButton ptButton, char* name, PRegion ptRegion, ONDRAW_FUNC OnDraw, ONPRESSED_FUNC OnPressed);
 
 #endif
