@@ -5,12 +5,20 @@
 #include <disp_manager.h>
 #include <input_manager.h>
 
+#define BUTTON_DEFAULT_COLOR 0xff0000  // 默认颜色
+#define BUTTON_PRESSED_COLOR 0x00ff00  // 按压变色
+#define BUTTON_TEXT_COLOR    0x000000  // 文字颜色
+
+
+typedef int (*ONDRAW_FUNC)(struct Button* ptButton, PDispBuff ptDispBuff);
+typedef int (*ONPRESSED_FUNC)(struct Button* ptButton, PDispBuff ptDispBuff, PInputEvent ptInputEvent);
 typedef struct Button
 {
 	char* name;
+	int status;  // 状态标记位
 	Region tRegion;  // 按钮的大小
-	int (*OnDraw)(struct Button* ptButton, PDispBuff ptDispBuff);  // 绘制按钮，struct Button* ptButton表示绘制按钮本身
-	int (*OnPressed)(struct Button* ptButton, PDispBuff ptDispBuff, PInputEvent ptInputEvent);  // 使用按钮的方法
+	ONDRAW_FUNC OnDraw;  // 绘制按钮，struct Button* ptButton表示绘制按钮本身
+	ONPRESSED_FUNC OnPressed;  // 使用按钮的方法
 }Button, * PButton;
 
 #endif
