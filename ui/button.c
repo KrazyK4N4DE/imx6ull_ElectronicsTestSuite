@@ -8,6 +8,7 @@ static int DefaultOnDraw(struct Button* ptButton, PDispBuff ptDispBuff)
 	DrawTextInRegionCentral(ptButton->name, &ptButton->tRegion, BUTTON_TEXT_COLOR);
 	// 刷到lcd/web上
 	FlushDisplayRegion(&ptButton->tRegion, ptDispBuff);
+	return 0;
 }
 static int DefaultOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInputEvent ptInputEvent)
 {
@@ -21,6 +22,8 @@ static int DefaultOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInpu
 	DrawTextInRegionCentral(ptButton->name, &ptButton->tRegion, BUTTON_TEXT_COLOR);
 	// 刷到lcd/web上
 	FlushDisplayRegion(&ptButton->tRegion, ptDispBuff);
+
+	return 0;
 }
 
 void ButtonInit(PButton ptButton, char* name, PRegion ptRegion, ONDRAW_FUNC OnDraw, ONPRESSED_FUNC OnPressed)
