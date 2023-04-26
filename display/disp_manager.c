@@ -142,7 +142,63 @@ void DrawFontBitMap(PFontBitMap ptFontBitMap, unsigned int dwColor)
     }
 }
 
-// 把绘制好的像素刷到硬件上去
+/*绘制某个区域*/
+void DrawRegion(PRegion ptRegion, unsigned int dwColor)
+{
+	int x = ptRegion->leftUpX;
+	int y = ptRegion->leftUpY;
+	int width = ptRegion->width;
+	int height = ptRegion->height;
+
+	for(int j = y; j < y + height; ++j)
+		for(int i = x; i < x + width; ++i)
+			PutPixel(i, j, dwColor);
+}
+
+/*
+* 居中绘制文字，简化做法：
+* 1. 假设字体长宽相同
+* 2. 设n = strlen(name)
+* 3. 则单个字符尺寸为s = width / n / 2，这里再除以2是怕越界，就弄小点
+* 4. 尺寸设限，最高不超过height
+* 5. 字体的左右两边余量为(width - s * n) / 2，上下两边余量为(height - s) / 2
+* 6. 区域左上角坐标为iLeftUpX，iLeftUpY
+* 7. 则字体起始坐标x = iLeftUpX + (width - s * n) / 2，y = iLeftUpY + (height - s) / 2 + s，因为是从左上角开始算的，所以y还得加个s
+*/
+void DrawTextInRegionCentral(char* name, PRegion ptRegion, unsigned int dwColor)
+{
+	int n = strlen(name);
+	int iFontSize = ptRegion->width / n / 2;
+	int iOriginX, iOriginY;
+	FontBitMap tFontBitMap;
+	int i = 0;
+	int error;
+
+	if(iFontSize > ptRegion->height) iFontSize = ptRegion->height;
+	iOriginX = ptRegion->leftUpX + (ptRegion->width - iFontSize * n) / 2;
+	iOriginY = ptRegion->leftUpY + (ptRegion->width - iFontSize) / 2 + iFontSize;
+	SetFontSize(iFontSize);
+	while(name[i])
+	{
+		// 获得位图
+		tFontBitMap.iCurOriginX = iOriginX;
+		tFontBitMap.iCurOriginY = iOriginY;
+		error = GetFontBitMap(name[i], &tFontBitMap);
+		if(error)
+		{
+			printf("GetFontBitMap error\n");
+			return;
+		}
+		// 开始绘制到buffer
+		DrawFontBitMap(&tFontBitMap, 0xff0000);
+		// 下一个位置
+		iOriginX = tFontBitMap.iNextOriginX;
+		iOriginY = tFontBitMap.iNextOriginY;
+		i++;
+	}
+}
+
+/*把绘制好的像素刷到硬件上去*/
 int FlushDisplayRegion(PRegion ptRegion, PDispBuff ptDispBuff)
 {
 	return g_DispDefault->FlushRegion(ptRegion, ptDispBuff);
