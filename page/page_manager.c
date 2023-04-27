@@ -14,7 +14,8 @@ void RegisterPage(PPageAction ptPageAction)
 /*注册多个页面*/
 void PagesRegister()
 {
-	
+	extern void MainPageRegister();
+	MainPageRegister();
 }
 
 /*获取某个页面*/

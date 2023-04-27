@@ -2,7 +2,7 @@
 #define __COMMON_H__
 
 #ifndef NULL
-#define NULL (void* )0;
+#define NULL (void* )0
 #endif
 
 // 块区域大小分辨率
