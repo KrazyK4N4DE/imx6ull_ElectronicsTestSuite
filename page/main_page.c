@@ -3,7 +3,19 @@
 
 static void MainPageRun(void* pParams)
 {
-	printf("FileName: %s\nFuncName: %s\nLine: %d\n", __FILE__, __FUNCTION__, __LINE__);  // 打印文件名、函数名、当前行数
+	/*读取配置文件*/
+
+	/*根据配置文件生成按钮、界面*/
+
+	while(1)
+	{
+		/*读取输入事件*/
+
+		/*根据输入事件找到按钮*/
+
+		/*调用按钮的OnPressed函数*/
+		
+	}
 }
 
 static PageAction g_tMainPage = 
