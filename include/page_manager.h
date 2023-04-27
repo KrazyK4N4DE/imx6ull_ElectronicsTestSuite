@@ -8,4 +8,8 @@ typedef struct PageAction
 	struct PageAction* ptNext;
 }PageAction, * PPageAction;
 
+void RegisterPage(PPageAction ptPageAction);
+void PagesRegister();
+PPageAction Page(char* name);
+
 #endif
