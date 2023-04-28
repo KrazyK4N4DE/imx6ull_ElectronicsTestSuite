@@ -1,6 +1,8 @@
 #ifndef __PAGE_MANAGER_H__
 #define __PAGE_MANAGER_H__
 
+#include <common.h>
+
 typedef struct PageAction
 {
 	char* name;
