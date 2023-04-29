@@ -30,7 +30,7 @@ void ButtonInit(PButton ptButton, char* name, PRegion ptRegion, ONDRAW_FUNC OnDr
 {
 	ptButton->status = 0;
 	ptButton->name = name;
-	ptButton->tRegion = *ptRegion;
+	if(ptRegion) ptButton->tRegion = *ptRegion;
 	ptButton->OnDraw = OnDraw ? OnDraw : DefaultOnDraw;
 	ptButton->OnPressed = OnPressed ? OnPressed : DefaultOnPressed;
 }

@@ -14,8 +14,8 @@ typedef struct ItemCfg
 	char command[100];  // 按钮测试时可运行的命令
 }ItemCfg, * PItemCfg;
 
-int ParseConfigFile(char* FileName);  // 解析配置文件
-int GetItemCfgCount();        // 返回配置项的数量
+int ParseConfigFile();         // 解析配置文件
+int GetItemCfgCount();         // 返回配置项的数量
 PItemCfg GetItemCfgByIndex(int index);  // 根据索引返回某个配置项
 PItemCfg GetItemCfgByName(char* name);  // 根据名称返回某个配置项
 

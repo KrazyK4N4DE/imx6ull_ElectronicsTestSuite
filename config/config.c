@@ -6,7 +6,7 @@ static ItemCfg g_tItemCfgs[ITEMCFG_MAX_NUM];
 static int g_iItemCfgCount = 0;
 
 /*解析配置文件，构造g_tItemCfgs数组和g_iItemCfgCount。涉及文件操作*/
-int ParseConfigFile(char* FileName)
+int ParseConfigFile()
 {
 	char buf[100];
 	char* p = buf;
