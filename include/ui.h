@@ -8,6 +8,7 @@
 #define BUTTON_DEFAULT_COLOR 0xff0000  // 默认颜色
 #define BUTTON_PRESSED_COLOR 0x00ff00  // 按压变色
 #define BUTTON_TEXT_COLOR    0x000000  // 文字颜色
+#define BUTTON_PERCENT_COLOR 0x0000ff  // 数字颜色
 
 struct Button;
 
