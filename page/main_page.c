@@ -1,5 +1,6 @@
 #include <page_manager.h>
 #include <config.h>
+#include <ui.h>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
@@ -16,12 +17,11 @@ static int MainPageOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInp
 	unsigned int dwColor = BUTTON_DEFAULT_COLOR;
 	char name[100];
 	char status[100];
-	char* strButton;  // 按钮名字的通用变量
+	char* strButton = ptButton->name;  // 按钮名字的通用变量
 
 	// 1.1 对于触摸屏事件
 	if(ptInputEvent->iType == INPUT_TYPE_TOUCH)
 	{
-		strButton = ptButton->name;
 		// 1.2 分辨能否被点击
 		if (GetItemCfgByName(ptButton->name)->bCanBeTouched == 0) return -1;
 		// 1.3 修改颜色
@@ -31,7 +31,6 @@ static int MainPageOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInp
 	// 2.1 对于网络事件
 	else if(ptInputEvent->iType == INPUT_TYPE_NET)
 	{
-		strButton = ptButton->name;
 		// 2.2 根据传入的字符串修改颜色
 		sscanf(ptInputEvent->str, "%s %s", name, status);
 		if(strcmp(status, "ok") == 0) dwColor = BUTTON_PRESSED_COLOR;
@@ -43,6 +42,7 @@ static int MainPageOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInp
 		}
 		else return -1;
 	}
+	else return -1;
 	// 先把整个按钮底色绘制成默认颜色
 	DrawRegion(&ptButton->tRegion, dwColor);  
 	// 居中写文字
@@ -109,9 +109,9 @@ static void GenerateButtons()
 static int isTouchPointInRegion(int iX, int iY, PRegion ptRegion)
 {
 	// 判断X方向
-	if(iX < ptRegion->leftUpX || iX > = ptRegion->leftUpX + ptRegion->width) return 0;
+	if(iX < ptRegion->leftUpX || iX >= ptRegion->leftUpX + ptRegion->width) return 0;
 	// 判断Y方向
-	if(iY < ptRegion->leftUpY || iY > = ptRegion->leftUpY + ptRegion->height) return 0;
+	if(iY < ptRegion->leftUpY || iY >= ptRegion->leftUpY + ptRegion->height) return 0;
 	return 1;
 }
 
@@ -120,6 +120,7 @@ static PButton GetButtonByName(char* name)
 {
 	for(int i = 0; i < g_iButtonCount; ++i)
 		if(strcmp(name, g_tButtons[i].name) == 0) return &g_tButtons[i];
+	return NULL;
 }
 
 
@@ -128,14 +129,17 @@ static PButton GetButtonByInputEvent(PInputEvent ptInputEvent)
 {
 	char name[100];
 	if(ptInputEvent->iType == INPUT_TYPE_TOUCH)
+	{
 		for(int i = 0; i < g_iButtonCount; ++i)
 			if(isTouchPointInRegion(ptInputEvent->iX, ptInputEvent->iY, &g_tButtons[i].tRegion)) return &g_tButtons[i];
+	}
 	else if(ptInputEvent->iType == INPUT_TYPE_NET)
 	{
 		sscanf(ptInputEvent->str, "%s", name);
 		return GetButtonByName(name);
 	}
 	else return NULL;
+	return NULL;
 }
 
 static void MainPageRun(void* pParams)
@@ -150,7 +154,7 @@ static void MainPageRun(void* pParams)
 	if(error)
 	{
 		printf("Parse config file error\n");
-		return error;
+		return;
 	}
 
 	/*根据配置文件生成按钮、界面*/

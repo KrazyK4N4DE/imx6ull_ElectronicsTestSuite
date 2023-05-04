@@ -10,10 +10,11 @@
 #include <stdlib.h>
 #include <font_manager.h>
 #include <disp_manager.h>
+#include <input_manager.h>
+#include <page_manager.h>
 
 int main(int argc, char **argv)
 {
-	PDispBuff ptBuffer;
 	int error;
 
 	/*若命令行第二个参数没有传入字库*/
@@ -27,7 +28,6 @@ int main(int argc, char **argv)
 	DisplayInit();
 	SelectDefaultDisplay("fb");
 	InitDefaultDisplay();
-	ptBuffer = GetDisplayBuffer();
 	
 	/*初始化输入系统*/
 	InputRegister();

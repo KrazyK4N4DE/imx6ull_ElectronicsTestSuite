@@ -12,7 +12,7 @@ int ParseConfigFile()
 	char* p = buf;
 
 	/*1. 打开文件*/
-	FILE* fp = fopen_any_on_path(CFG_FILE, "r");
+	FILE* fp = fopen(CFG_FILE, "r");
 	if(!fp)
 	{
 		printf("Can't open file: %s", CFG_FILE);
