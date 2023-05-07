@@ -4690,6 +4690,7 @@ int main(int argc, char **argv)
 	if(error)
 	{
 		printf("SelectAndInitFont error\n");
+		return -1;
 	}
 	SetFontSize(font_size);
 	while(str[i])

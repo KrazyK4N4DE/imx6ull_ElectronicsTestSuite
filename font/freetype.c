@@ -73,7 +73,7 @@ static int FreetypeGetFontBitMap(unsigned int dwCode, PFontBitMap ptFontBitMap)
 
 static FontOpr g_tFreetypeOpr = 
 {
-	.name = "Freetype",
+	.name = "freetype",
 	.FontInit = FreetypeFontInit,
 	.SetFontSize = FreetypeSetFontSize,
 	.GetFontBitMap = FreetypeGetFontBitMap
