@@ -176,7 +176,7 @@ void DrawTextInRegionCentral(char* name, PRegion ptRegion, unsigned int dwColor)
 
 	if(iFontSize > ptRegion->height) iFontSize = ptRegion->height;
 	iOriginX = ptRegion->leftUpX + (ptRegion->width - iFontSize * n) / 2;
-	iOriginY = ptRegion->leftUpY + (ptRegion->width - iFontSize) / 2 + iFontSize;
+	iOriginY = ptRegion->leftUpY + (ptRegion->height - iFontSize) / 2 + iFontSize;
 	SetFontSize(iFontSize);
 	while(name[i])
 	{
@@ -190,7 +190,7 @@ void DrawTextInRegionCentral(char* name, PRegion ptRegion, unsigned int dwColor)
 			return;
 		}
 		// 开始绘制到buffer
-		DrawFontBitMap(&tFontBitMap, 0xff0000);
+		DrawFontBitMap(&tFontBitMap, dwColor);
 		// 下一个位置
 		iOriginX = tFontBitMap.iNextOriginX;
 		iOriginY = tFontBitMap.iNextOriginY;

@@ -39,6 +39,11 @@ int main(int argc, char **argv)
 		printf("SelectAndInitFont error\n");
 	}
 	
+	tRegion.leftUpX = 200;
+	tRegion.leftUpY = 200;
+	tRegion.width   = 300;
+	tRegion.height   = 100;
+	
 	ButtonInit(&tButton, "test", &tRegion, NULL, NULL);
 	tButton.OnDraw(&tButton, ptBuffer);
 	/*模拟点击*/
