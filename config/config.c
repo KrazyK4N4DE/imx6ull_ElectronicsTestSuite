@@ -19,7 +19,7 @@ int ParseConfigFile()
 		return -1;
 	}
 
-	while(1)
+	while(fgets(buf, 100, fp))
 	{
 		/*2.1 读每一行*/
 		buf[99] = '\0';

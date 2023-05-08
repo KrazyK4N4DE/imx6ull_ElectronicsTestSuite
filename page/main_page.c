@@ -70,7 +70,7 @@ static void GenerateButtons()
 	ptDispBuff = GetDisplayBuffer();  // 得到region的信息
 	xRes = ptDispBuff->iXres;
 	yRes = ptDispBuff->iYres;
-	width = sqrt(1.0 / 0.618 * xRes * yRes * n);
+	width = sqrt(1.0 / 0.618 * xRes * yRes / n);
 	n_per_line = xRes / width + 1;  // 为了不让width越界，要处理width使其小一点
 	width  = xRes / n_per_line;
 	height = 0.618 * width;  // 设定height与width为黄金比例
@@ -87,7 +87,6 @@ static void GenerateButtons()
 		pre_start_x = start_x - width;
 		for(col = 0; (col < n_per_line) && (i < n); ++col)
 		{
-			if(i == n) break;
 			ptButton = &g_tButtons[i];
 			ptButton->tRegion.leftUpX = pre_start_x + width;
 			ptButton->tRegion.leftUpY = pre_start_y;
