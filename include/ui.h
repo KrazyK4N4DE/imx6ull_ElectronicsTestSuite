@@ -17,6 +17,7 @@ typedef int (*ONPRESSED_FUNC)(struct Button* ptButton, PDispBuff ptDispBuff, PIn
 typedef struct Button
 {
 	char* name;
+	int iFontSize;
 	int status;  // 状态标记位
 	Region tRegion;  // 按钮的大小
 	ONDRAW_FUNC OnDraw;  // 绘制按钮，struct Button* ptButton表示绘制按钮本身

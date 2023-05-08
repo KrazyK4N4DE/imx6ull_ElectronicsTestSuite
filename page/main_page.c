@@ -53,7 +53,40 @@ static int MainPageOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInp
 	return 0;
 }
 
-static void GenerateButtons()
+/*获取所有Button中最长的文字大小*/
+static int GetFontSizeForAllButtons(void)
+{
+	int i, max_index = 0;
+	int len, max_len = -1;
+	RegionCartesian tRegionCar;
+	float k, kx, ky;  // 缩放因子
+	
+	/*1. 找出name最长的Button*/
+	for(i = 0; i < g_iButtonCount; ++i)
+	{
+		len = strlen(g_tButtons[i].name);
+		if(len > max_len)
+		{
+			max_len = len;  // 最长文字长度更新
+			max_index = i;  // 最大下标更新
+		}
+	}
+	
+	/*2. 以font_size = 100为例，算出它的外框*/
+	SetFontSize(100);
+	GetStringRegionCar(g_tButtons[max_index].name, &tRegionCar);
+	
+	/*3. 把文字的外框缩放为Button的外框*/
+	kx = 1.0 * g_tButtons[max_index].tRegion.width / tRegionCar.width;
+	ky = 1.0 * g_tButtons[max_index].tRegion.height / tRegionCar.height;
+	k = kx  < ky ? kx : ky;  // 取kx、ky中最小因子，以防其中一边区域溢出
+	
+	/*4. 反算出font_size，只取0.80，避免文字过于接近边界*/
+	return k * 100 * 0.8;
+}
+
+/*生成按钮，设定Button外框大小均匀分布*/
+static void GenerateButtons(void)
 {
 	int width, height;
 	int n_per_line;  // 每行有多少个按钮
@@ -64,6 +97,7 @@ static void GenerateButtons()
 	int col, row, rows;
 	int i = 0;
 	PButton ptButton;
+	int iFontSize;
 	
 	/*算出单个按钮的width、height*/
 	g_iButtonCount = n = GetItemCfgCount();  // 得到按钮总数量
@@ -99,9 +133,15 @@ static void GenerateButtons()
 			++i;
 		}
 	}
+
+	iFontSize = GetFontSizeForAllButtons();
 	
 	/*OnDraw*/
-	for(i = 0; i < n; ++i) g_tButtons[i].OnDraw(&g_tButtons[i], ptDispBuff);
+	for(i = 0; i < n; ++i)
+	{
+		g_tButtons[i].iFontSize = iFontSize;
+		g_tButtons[i].OnDraw(&g_tButtons[i], ptDispBuff);
+	}
 }
 
 /*判断触摸屏输入的位置是否在按钮区域内*/

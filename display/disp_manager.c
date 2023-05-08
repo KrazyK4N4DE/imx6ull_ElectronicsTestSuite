@@ -72,7 +72,6 @@ PDispBuff GetDisplayBuffer()
 	return &g_DispBuff;
 }
 
-
 /*
 * 通用函数
 */
@@ -155,29 +154,23 @@ void DrawRegion(PRegion ptRegion, unsigned int dwColor)
 			PutPixel(i, j, dwColor);
 }
 
-/*
-* 居中绘制文字，简化做法：
-* 1. 假设字体长宽相同
-* 2. 设n = strlen(name)
-* 3. 则单个字符尺寸为s = width / n / 2，这里再除以2是怕越界，就弄小点
-* 4. 尺寸设限，最高不超过height
-* 5. 字体的左右两边余量为(width - s * n) / 2，上下两边余量为(height - s) / 2
-* 6. 区域左上角坐标为iLeftUpX，iLeftUpY
-* 7. 则字体起始坐标x = iLeftUpX + (width - s * n) / 2，y = iLeftUpY + (height - s) / 2 + s，因为是从左上角开始算的，所以y还得加个s
-*/
+/*居中绘制文字*/
 void DrawTextInRegionCentral(char* name, PRegion ptRegion, unsigned int dwColor)
 {
-	int n = strlen(name);
-	int iFontSize = ptRegion->width / n / 2;
 	int iOriginX, iOriginY;
 	FontBitMap tFontBitMap;
+	RegionCartesian tRegionCar;
 	int i = 0;
 	int error;
 
-	if(iFontSize > ptRegion->height) iFontSize = ptRegion->height;
-	iOriginX = ptRegion->leftUpX + (ptRegion->width - iFontSize * n) / 2;
-	iOriginY = ptRegion->leftUpY + (ptRegion->height - iFontSize) / 2 + iFontSize;
-	SetFontSize(iFontSize);
+	/*计算字符串的外框*/
+	GetStringRegionCar(name, &tRegionCar);
+
+	/*计算第一个字符的origin*/
+	iOriginX = ptRegion->leftUpX + (ptRegion->width - tRegionCar.width) / 2 - tRegionCar.leftUpX;
+	iOriginY = ptRegion->leftUpY + (ptRegion->height - tRegionCar.height) / 2 + tRegionCar.leftUpY;
+
+	/*逐个绘制*/
 	while(name[i])
 	{
 		// 获得位图

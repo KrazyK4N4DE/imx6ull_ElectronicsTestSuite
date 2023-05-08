@@ -5,6 +5,7 @@ static int DefaultOnDraw(struct Button* ptButton, PDispBuff ptDispBuff)
 	// 先把整个按钮底色绘制成默认颜色
 	DrawRegion(&ptButton->tRegion, BUTTON_DEFAULT_COLOR);  
 	// 居中写文字
+	SetFontSize(ptButton->iFontSize);
 	DrawTextInRegionCentral(ptButton->name, &ptButton->tRegion, BUTTON_TEXT_COLOR);
 	// 刷到lcd/web上
 	FlushDisplayRegion(&ptButton->tRegion, ptDispBuff);
