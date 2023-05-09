@@ -8,6 +8,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
+#include <stdlib.h>
 #include <disp_manager.h>
 
 /*
@@ -47,7 +48,16 @@ int SelectDefaultDisplay(char* name)
 	}
 	return -1;
 }
-// 初始化默认的显示
+
+/*LCD清屏函数*/
+void LCD_Clear(PDispBuff ptDispBuff, unsigned char color)
+{
+	// printf("x: %d\ny: %d\nbpp: %d\nbuff: %s\n", ptDispBuff->iXres, ptDispBuff->iYres, ptDispBuff->iBpp, ptDispBuff->buff);
+	int space = ptDispBuff->iXres * ptDispBuff->iYres * ptDispBuff->iBpp / 8;
+	memset(ptDispBuff->buff, color, space);  // memset针对字节操作，所以最多黑灰白
+}
+
+/*初始化默认的显示*/
 int InitDefaultDisplay(void)
 {
 	int ret;
@@ -63,6 +73,7 @@ int InitDefaultDisplay(void)
 		printf("GetBuffer Fail!\n");
 		return -1;
 	}
+	LCD_Clear(&g_DispBuff, 0);
 	line_width = g_DispBuff.iXres * g_DispBuff.iBpp / 8;
 	pixel_width = g_DispBuff.iBpp / 8;
 	return 0;
