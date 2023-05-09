@@ -21,7 +21,7 @@ static int TouchScreenGetInputEvent(PInputEvent ptInputEvent)
 
 	return 0;
 }
-static int TouchScreenDeviceInit()
+static int TouchScreenDeviceInit(void)
 {
 	g_ts = ts_setup(NULL, 0);
 	if (!g_ts)
@@ -31,7 +31,7 @@ static int TouchScreenDeviceInit()
 	}
 	return 0;
 }
-static int TouchScreenDeviceExit()
+static int TouchScreenDeviceExit(void)
 {
 	ts_close(g_ts);
 	return 0;
@@ -45,7 +45,7 @@ static InputDevice g_tTouchScreenDev =
 	.DeviceExit = TouchScreenDeviceExit
 };
 
-void TouchScreenDeviceRegister()
+void TouchScreenDeviceRegister(void)
 {
 	RegisterInputDevice(&g_tTouchScreenDev);	
 }

@@ -20,16 +20,16 @@ typedef struct DispOpr
     int (*GetBuffer)(PDispBuff ptDispBuff);  // 获得一个buffer，在上面绘制图片，返回0表示get成功
     int (*FlushRegion)(PRegion ptRegion, PDispBuff ptDispBuff);  // 把绘制好的区域刷出来
     struct DispOpr* ptNext;  // 刷到FrameBuffer或者web端都行，用一个链表式的指针链接起来好管理
-    int (*DeviceInit)();
-	int (*DeviceExit)();
+    int (*DeviceInit)(void);
+	int (*DeviceExit)(void);
 }DispOpr, * PDispOpr;
 
-void DisplayInit();
-void FramebufferInit();
+void DisplaySystemRegister(void);
+void FramebufferInit(void);
 void RegisterDisplay(PDispOpr ptDispOpr);
 int SelectDefaultDisplay(char* name);
-int InitDefaultDisplay();
-PDispBuff GetDisplayBuffer();
+int InitDefaultDisplay(void);
+PDispBuff GetDisplayBuffer(void);
 int PutPixel(int x, int y, unsigned int dwColor);
 void DrawFontBitMap(PFontBitMap ptFontBitMap, unsigned int dwColor);
 void DrawRegion(PRegion ptRegion, unsigned int dwColor);

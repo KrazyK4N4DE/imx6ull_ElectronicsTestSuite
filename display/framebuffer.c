@@ -17,7 +17,7 @@ static unsigned char *fb_base;
 static unsigned int line_width;
 static unsigned int pixel_width;
 
-static int FbDeviceInit()
+static int FbDeviceInit(void)
 {
 	fd_fb = open("/dev/fb0", O_RDWR);
 	if (fd_fb < 0)
@@ -42,7 +42,7 @@ static int FbDeviceInit()
 	}
 	return 0;
 }
-static int FbDeviceExit()
+static int FbDeviceExit(void)
 {
 	munmap(fb_base, screen_size);
 	close(fd_fb);
@@ -75,7 +75,7 @@ static DispOpr g_tFramebufferOpr =
 	.DeviceExit = FbDeviceExit
 };
 // 将结构体注册进去
-void FramebufferInit()
+void FramebufferRegister(void)
 {
 	RegisterDisplay(&g_tFramebufferOpr);
 }

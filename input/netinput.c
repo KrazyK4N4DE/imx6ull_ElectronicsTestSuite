@@ -36,7 +36,7 @@ static int NetInputGetInputEvent(PInputEvent ptInputEvent)
 	}
 	else return -1;
 }
-static int NetInputDeviceInit()
+static int NetInputDeviceInit(void)
 {
 	struct sockaddr_in tSocketServerAddr;
 	int iRet;  // 临时变量iReturn
@@ -64,7 +64,7 @@ static int NetInputDeviceInit()
 	}
 	return 0;
 }
-static int NetInputDeviceExit()
+static int NetInputDeviceExit(void)
 {
 	close(g_iSocketServer);
 	return 0;
@@ -78,7 +78,7 @@ static InputDevice g_tNetInputDev =
 	.DeviceExit = NetInputDeviceExit
 };
 
-void NetInputDeviceRegister()
+void NetInputDeviceRegister(void)
 {
 	RegisterInputDevice(&g_tNetInputDev);	
 }

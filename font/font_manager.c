@@ -11,9 +11,9 @@ void RegisterFont(PFontOpr ptFontOpr)
 	g_ptFonts = ptFontOpr;
 }
 /*字库注册函数*/
-void FontsRegister()
+void FontSystemRegister(void)
 {
-	extern void FreetypeRegister();
+	extern void FreetypeRegister(void);
 	FreetypeRegister();
 }
 /*选择想要使用的FontOpr并初始化*/

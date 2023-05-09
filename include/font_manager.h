@@ -26,7 +26,7 @@ typedef struct FontOpr
 }FontOpr, * PFontOpr;
 
 void RegisterFont(PFontOpr ptFontOpr);
-void FontsRegister();
+void FontSystemRegister(void);
 int SelectAndInitFont(char* aFontOprName, char* aFineName);
 int SetFontSize(int iFontSize);
 int GetFontBitMap(unsigned int dwCode, PFontBitMap ptFontBitMap);

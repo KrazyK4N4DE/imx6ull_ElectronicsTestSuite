@@ -26,9 +26,10 @@ void RegisterDisplay(PDispOpr ptDispOpr)
 	g_DispDevs = ptDispOpr;
 }
 // 来调用各个显示方式的Init，如FramebufferInit、WebInit
-void DisplayInit()
+void DisplaySystemRegister(void)
 {
-	FramebufferInit();
+	extern void FramebufferRegister(void);
+	FramebufferRegister();
 	// WebInit();
 }
 // 来选择链表中的显示方式
@@ -47,7 +48,7 @@ int SelectDefaultDisplay(char* name)
 	return -1;
 }
 // 初始化默认的显示
-int InitDefaultDisplay()
+int InitDefaultDisplay(void)
 {
 	int ret;
 	ret = g_DispDefault->DeviceInit();
@@ -67,7 +68,7 @@ int InitDefaultDisplay()
 	return 0;
 }
 // 返回结构体
-PDispBuff GetDisplayBuffer()
+PDispBuff GetDisplayBuffer(void)
 {
 	return &g_DispBuff;
 }

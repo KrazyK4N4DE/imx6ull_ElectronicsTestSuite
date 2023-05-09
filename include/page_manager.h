@@ -11,7 +11,7 @@ typedef struct PageAction
 }PageAction, * PPageAction;
 
 void RegisterPage(PPageAction ptPageAction);
-void PagesRegister();
+void PageSystemRegister(void);
 PPageAction Page(char* name);
 
 #endif

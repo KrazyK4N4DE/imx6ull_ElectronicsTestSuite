@@ -55,13 +55,13 @@ void RegisterInputDevice(PInputDevice ptInputDevice)
 }
 
 /*注册各个设备*/
-void InputRegister()
+void InputSystemRegister(void)
 {
 	// register touchscreen
-	extern void TouchScreenDeviceRegister();
+	extern void TouchScreenDeviceRegister(void);
 	TouchScreenDeviceRegister();
 	// register netinput
-	extern void NetInputDeviceRegister();
+	extern void NetInputDeviceRegister(void);
 	NetInputDeviceRegister();
 }
 
@@ -88,7 +88,7 @@ static void* input_recv_my_thread_func (void* data)
 	}
 	return NULL;
 }
-void InputDeviceInit()
+void InputDeviceInit(void)
 {
 	PInputDevice tmp = g_InputDevs;
 	int ret;

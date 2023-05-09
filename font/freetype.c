@@ -152,7 +152,7 @@ static FontOpr g_tFreetypeOpr =
 	.GetStringRegionCar = FreetypeGetStringRegionCar
 };
 
-void FreetypeRegister()
+void FreetypeRegister(void)
 {
 	RegisterFont(&g_tFreetypeOpr);
 }

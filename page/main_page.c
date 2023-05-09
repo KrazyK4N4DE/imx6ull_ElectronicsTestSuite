@@ -221,7 +221,7 @@ static PageAction g_tMainPage =
 	.Run = MainPageRun
 };
 
-void MainPageRegister()
+void MainPageRegister(void)
 {
 	RegisterPage(&g_tMainPage);
 }

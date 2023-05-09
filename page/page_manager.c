@@ -12,9 +12,9 @@ void RegisterPage(PPageAction ptPageAction)
 }
 
 /*注册多个页面*/
-void PagesRegister()
+void PageSystemRegister(void)
 {
-	extern void MainPageRegister();
+	extern void MainPageRegister(void);
 	MainPageRegister();
 }
 

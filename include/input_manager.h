@@ -21,14 +21,14 @@ typedef struct InputDevice
 {
 	char* name;  // 名称
 	int (*GetInputEvent)(PInputEvent ptInputEvent);
-	int (*DeviceInit)();
-	int (*DeviceExit)();
+	int (*DeviceInit)(void);
+	int (*DeviceExit)(void);
 	struct InputDevice* ptNext;
 }InputDevice, * PInputDevice;
 
 void RegisterInputDevice(PInputDevice ptInputDevice);
-void InputRegister();
-void InputDeviceInit();
+void InputSystemRegister(void);
+void InputDeviceInit(void);
 int GetInputEvent(PInputEvent ptInputEvent);
 
 #endif
