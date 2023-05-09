@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define X_GAP 5
 #define Y_GAP 5
@@ -18,6 +19,10 @@ static int MainPageOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInp
 	char name[100];
 	char status[100];
 	char* strButton = ptButton->name;  // 按钮名字的通用变量
+	char* command_status[3] = {"err", "ok", "percent"};
+	int command_status_index = 0;
+	char command[105];
+	PItemCfg ptItemCfg;
 
 	// 1.1 对于触摸屏事件
 	if(ptInputEvent->iType == INPUT_TYPE_TOUCH)
@@ -26,19 +31,32 @@ static int MainPageOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInp
 		if (GetItemCfgByName(ptButton->name)->bCanBeTouched == 0) return -1;
 		// 1.3 修改颜色
 		ptButton->status = !ptButton->status;  // 每次按压反转一下
-		if(ptButton->status) dwColor = BUTTON_PRESSED_COLOR;
+		if(ptButton->status)
+		{
+			dwColor = BUTTON_PRESSED_COLOR;
+			command_status_index = 1;
+		}
 	}
 	// 2.1 对于网络事件
 	else if(ptInputEvent->iType == INPUT_TYPE_NET)
 	{
 		// 2.2 根据传入的字符串修改颜色
 		sscanf(ptInputEvent->str, "%s %s", name, status);
-		if(strcmp(status, "ok") == 0) dwColor = BUTTON_PRESSED_COLOR;
-		else if(strcmp(status, "err") == 0) dwColor = BUTTON_DEFAULT_COLOR;
+		if(strcmp(status, "ok") == 0)
+		{
+			dwColor = BUTTON_PRESSED_COLOR;
+			command_status_index = 1;
+		}
+		else if(strcmp(status, "err") == 0)
+		{
+			dwColor = BUTTON_DEFAULT_COLOR;
+			command_status_index = 0;
+		}
 		else if(status[0] >= '0' && status[0] <= '9')
 		{
 			dwColor = BUTTON_PERCENT_COLOR;
 			strButton = status;
+			command_status_index = 2;
 		}
 		else return -1;
 	}
@@ -49,6 +67,13 @@ static int MainPageOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInp
 	DrawTextInRegionCentral(strButton, &ptButton->tRegion, BUTTON_TEXT_COLOR);
 	// 刷到lcd/web上
 	FlushDisplayRegion(&ptButton->tRegion, ptDispBuff);
+	// 执行command
+	ptItemCfg = GetItemCfgByName(ptButton->name);
+	if(ptItemCfg->command[0] != '\0')
+	{
+		sprintf(command, "%s %s", ptItemCfg->command, command_status[command_status_index]);
+		system(command);  // 调用command
+	}
 
 	return 0;
 }
