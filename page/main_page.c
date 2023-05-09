@@ -25,7 +25,7 @@ static int MainPageOnPressed(struct Button* ptButton, PDispBuff ptDispBuff, PInp
 	PItemCfg ptItemCfg;
 
 	// 1.1 对于触摸屏事件
-	if(ptInputEvent->iType == INPUT_TYPE_TOUCH)
+	if((ptInputEvent->iType == INPUT_TYPE_TOUCH) && (ptInputEvent->iPressure))
 	{
 		// 1.2 分辨能否被点击
 		if (GetItemCfgByName(ptButton->name)->bCanBeTouched == 0) return -1;
