@@ -12,10 +12,23 @@
 #include <disp_manager.h>
 #include <input_manager.h>
 #include <page_manager.h>
+#include <signal.h>
+
+/*收到信号后的处理子函数*/
+void signal_handler(int sig)
+{
+    printf("Received signal %d\n", sig);
+	ExitDisplayBuffer();
+    exit(0);
+}
 
 int main(int argc, char **argv)
 {
 	int error;
+
+	/*接收由Ctrl+C引起的中断信号以及kill引起的终止进程信号*/
+	signal(SIGINT, signal_handler);
+	signal(SIGTERM, signal_handler);
 
 	/*若命令行第二个参数没有传入字库*/
 	if(argc != 2)

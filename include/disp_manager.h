@@ -4,8 +4,6 @@
 #include <common.h>
 #include <font_manager.h>
 
-#define BACKGROUND_COLOR 0xff0000  // 背景颜色
-
 // 用于存放buffer的分辨率信息
 typedef struct DispBuff
 {
@@ -33,6 +31,7 @@ int SelectDefaultDisplay(char* name);
 void LCD_Clear(PDispBuff ptDispBuff, unsigned char color);
 int InitDefaultDisplay(void);
 PDispBuff GetDisplayBuffer(void);
+void ExitDisplayBuffer(void);
 int PutPixel(int x, int y, unsigned int dwColor);
 void DrawFontBitMap(PFontBitMap ptFontBitMap, unsigned int dwColor);
 void DrawRegion(PRegion ptRegion, unsigned int dwColor);

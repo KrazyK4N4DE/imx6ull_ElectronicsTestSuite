@@ -73,7 +73,7 @@ int InitDefaultDisplay(void)
 		printf("GetBuffer Fail!\n");
 		return -1;
 	}
-	LCD_Clear(&g_DispBuff, 0);
+	LCD_Clear(&g_DispBuff, 255);
 	line_width = g_DispBuff.iXres * g_DispBuff.iBpp / 8;
 	pixel_width = g_DispBuff.iBpp / 8;
 	return 0;
@@ -82,6 +82,13 @@ int InitDefaultDisplay(void)
 PDispBuff GetDisplayBuffer(void)
 {
 	return &g_DispBuff;
+}
+
+/*退出函数*/
+void ExitDisplayBuffer(void)
+{
+	LCD_Clear(&g_DispBuff, 0);
+	g_DispDefault->DeviceExit();
 }
 
 /*
