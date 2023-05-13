@@ -1,0 +1,1 @@
+SET(UNITTEST_SRC ui_test.c CACHE STRING "unittest")
