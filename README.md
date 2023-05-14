@@ -44,18 +44,12 @@ arm-buildroot-linux-gnueabihf-gcc ../unittest/client.c -o client
 
 ## 目录结构
 
-.
-
-├── build  # 编译好的文件
-
-├── docs  # 文档与材料
-
-├── etc  # 配置文件或其他
-
-├── include  # 头文件
-
-├── src  # 源文件代码
-
+.  
+├── build  # 编译好的文件  
+├── docs  # 文档与材料  
+├── etc  # 配置文件或其他  
+├── include  # 头文件  
+├── src  # 源文件代码  
 └── unittest  # 单元测试与测试程序
 
 ## TODO / 改进
