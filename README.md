@@ -21,10 +21,10 @@
 
 ## 设备及环境
 
-硬件：imx6ull_pro，LCD屏幕
-环境：Ubuntu 18.04.1
-交叉编译工具链：arm-buildroot-linux-gnueabihf-gcc v7.5.0
-第三方库：tslib，freetype
+- 硬件：imx6ull_pro，LCD屏幕
+- 环境：Ubuntu 18.04.1
+- 交叉编译工具链：arm-buildroot-linux-gnueabihf-gcc v7.5.0
+- 第三方库：tslib，freetype
 
 ## 使用
 
@@ -45,11 +45,17 @@ arm-buildroot-linux-gnueabihf-gcc ../unittest/client.c -o client
 ## 目录结构
 
 .
+
 ├── build  # 编译好的文件
+
 ├── docs  # 文档与材料
+
 ├── etc  # 配置文件或其他
+
 ├── include  # 头文件
+
 ├── src  # 源文件代码
+
 └── unittest  # 单元测试与测试程序
 
 ## TODO / 改进
