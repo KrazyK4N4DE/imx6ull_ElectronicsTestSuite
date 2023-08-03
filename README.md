@@ -1,4 +1,4 @@
-# 电子设备模块测试与烧写工具
+# 电子设备模块测试工具
 
 这是一个应用层软件项目，项目原名为《电子产品量产工具》([百问网](https://www.100ask.net/p/t_pc/course_pc_detail/column/p_5f04515ce4b036f1c0cf4254?product_id=p_5f04515ce4b036f1c0cf4254)，[B站](https://www.bilibili.com/video/BV1it4y1Q75z/?vd_source=11fdf4ddf6712b19eba94ccd395578f0))，作者为韦东山老师。本人基于学习的需要与兴趣，对项目进行复现，并增加了一点点的改进。
 
@@ -44,6 +44,7 @@ arm-buildroot-linux-gnueabihf-gcc ../unittest/client.c -o client
 
 ## 目录结构
 
+```bash
 .  
 ├── build  # 编译好的文件  
 ├── docs  # 文档与材料  
@@ -51,6 +52,7 @@ arm-buildroot-linux-gnueabihf-gcc ../unittest/client.c -o client
 ├── include  # 头文件  
 ├── src  # 源文件代码  
 └── unittest  # 单元测试与测试程序
+```
 
 ## TODO / 改进
 

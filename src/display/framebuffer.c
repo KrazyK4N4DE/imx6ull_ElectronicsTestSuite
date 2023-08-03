@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <linux/fb.h>
+#include <linux/fb.h>  // 存放struct fb_var_screeninfo的
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
